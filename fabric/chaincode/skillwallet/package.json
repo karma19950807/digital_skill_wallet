@@ -1,0 +1,17 @@
+{
+  "name": "skillwallet",
+  "version": "1.0.0",
+  "description": "Hyperledger Fabric chaincode for Skill Wallet",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node scripts/test.js",
+    "register": "node scripts/registerUser.js",
+    "enroll": "node scripts/enrollAdmin.js"
+  },
+  "dependencies": {
+    "fabric-ca-client": "^2.2.20",
+    "fabric-contract-api": "^2.5.0",
+    "fabric-network": "^2.2.20"
+  }
+}
