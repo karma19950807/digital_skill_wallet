@@ -1,0 +1,49 @@
+<h2>🎓 Submit Skill Coin</h2>
+
+<div *ngIf="successMessage" style="padding: 10px; background: #d4edda; color: #155724; border-radius: 6px; margin-bottom: 16px;">
+  {{ successMessage }}
+</div>
+
+<form (ngSubmit)="submit()" #form="ngForm">
+  <label>
+    Student ID:
+    <input [(ngModel)]="studentId" name="studentId" required />
+  </label><br />
+
+  <label>
+    Test ID:
+    <input [(ngModel)]="testId" name="testId" required />
+  </label><br />
+
+  <label>
+    Grade Level:
+    <input [(ngModel)]="gradeLevel" name="gradeLevel" required />
+  </label><br />
+
+  <label>
+    Logical Thinking:
+    <input type="number" [(ngModel)]="skills.logical" name="logical" />
+  </label><br />
+
+  <label>
+    Critical Analysis:
+    <input type="number" [(ngModel)]="skills.analysis" name="analysis" />
+  </label><br />
+
+  <label>
+    Problem Solving:
+    <input type="number" [(ngModel)]="skills.problem" name="problem" />
+  </label><br />
+
+  <label>
+    Digital Tools:
+    <input type="number" [(ngModel)]="skills.digital_tools" name="digital_tools" />
+  </label><br />
+
+  <label>
+    Artefact CID:
+    <input [(ngModel)]="artefactHash" name="artefactHash" />
+  </label><br />
+
+  <button type="submit">🚀 Submit</button>
+</form>
