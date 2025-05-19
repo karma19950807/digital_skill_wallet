@@ -1,0 +1,63 @@
+<mat-card>
+  <h2>My Skill Wallet</h2>
+
+  <mat-form-field appearance="outline" class="filter-box">
+    <mat-label>Filter by Status</mat-label>
+    <mat-select [(value)]="selectedStatus" (selectionChange)="filterWallet()">
+      <mat-option value="">All</mat-option>
+      <mat-option *ngFor="let status of statuses" [value]="status">{{ status }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-spinner *ngIf="loading" diameter="40"></mat-spinner>
+
+  <div *ngIf="errorMsg" class="error">{{ errorMsg }}</div>
+  <div *ngIf="!loading && filteredWallet.length === 0">No skill records found.</div>
+
+  <table mat-table [dataSource]="filteredWallet" class="mat-elevation-z2" *ngIf="filteredWallet.length > 0">
+    <ng-container matColumnDef="test_id">
+      <th mat-header-cell *matHeaderCellDef>Test ID</th>
+      <td mat-cell *matCellDef="let row">{{ row.test_id }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="grade_level">
+      <th mat-header-cell *matHeaderCellDef>Grade</th>
+      <td mat-cell *matCellDef="let row">{{ row.grade_level }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="artefact_hash">
+      <th mat-header-cell *matHeaderCellDef>Artefact</th>
+      <td mat-cell *matCellDef="let row">
+        <a href="https://ipfs.io/ipfs/{{ row.artefact_hash }}" target="_blank">
+          {{ row.artefact_hash?.slice(0, 10) + '...' }}
+        </a>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let row">{{ row.status }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="created_at">
+      <th mat-header-cell *matHeaderCellDef>Created</th>
+      <td mat-cell *matCellDef="let row">{{ row.created_at | date:'short' }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="view">
+      <th mat-header-cell *matHeaderCellDef>Details</th>
+      <td mat-cell *matCellDef="let row">
+        <button mat-button (click)="openSkillDetail(row)">View</button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</mat-card>
+
+<dialog id="skillModal">
+  <h3>Skill Details</h3>
+  <pre *ngIf="modalData">{{ modalData | json }}</pre>
+  <button mat-button (click)="closeModal()">Close</button>
+</dialog>

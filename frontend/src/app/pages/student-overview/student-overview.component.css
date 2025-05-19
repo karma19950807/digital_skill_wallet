@@ -1,0 +1,127 @@
+.overview-container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 24px;
+}
+
+.skill-breakdown-text p {
+  font-size: 16px;
+  margin: 8px 0;
+}
+
+.chart-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  justify-content: space-between;
+}
+
+.chart-box {
+  flex: 1 1 45%;
+  min-width: 300px;
+  max-width: 480px;
+  height: 300px;
+  background-color: #fafafa;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+}
+
+canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+}
+
+
+
+
+
+
+
+/* .overview-container {
+  padding: 24px;
+  font-family: 'Segoe UI', sans-serif;
+  color: #333;
+  background: #fef9f2;
+  min-height: 100vh;
+}
+
+.greeting {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.total-score {
+  font-size: 16px;
+  margin-bottom: 24px;
+}
+
+.stats-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.card {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  flex: 1;
+}
+
+.wide {
+  flex-basis: 100%;
+}
+
+.chart-card {
+  flex: 1 1 300px;
+  height: 360px;
+}
+
+.bar-group {
+  margin-bottom: 16px;
+}
+
+.bar {
+  width: 100%;
+  background: #eee;
+  height: 16px;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 4px 0;
+}
+
+.fill {
+  height: 100%;
+  transition: width 1s ease-in-out;
+}
+
+.fill-logical {
+  background: #ffa726;
+}
+
+.fill-critical {
+  background: #ff7043;
+}
+
+.fill-problem {
+  background: #ffee58;
+}
+
+@media (max-width: 768px) {
+  .stats-container {
+    flex-direction: column;
+  }
+
+  .chart-card {
+    width: 100%;
+    height: 280px;
+  }
+} */

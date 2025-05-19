@@ -1,44 +1,30 @@
-.login-card {
-  width: 100%;
-  max-width: 400px;
-  margin: 80px auto;
-  padding: 20px;
-  border-radius: 16px;
-  background: #fff3e0; /* Light orange background */
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-}
-
-.title-text {
-  font-size: 24px;
-  font-weight: 600;
-  color: #e65100; /* Deep orange like SoundCloud */
-  text-align: center;
-  width: 100%;
-}
-
-.login-form {
+.login-wrapper {
   display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-top: 16px;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #ffecb3, #ffcc80);
+}
+
+.login-card {
+  padding: 24px;
+  width: 400px;
+  border-radius: 16px;
+  background-color: #ffffff;
 }
 
 .full-width {
   width: 100%;
 }
 
-.login-btn {
-  background-color: #fb8c00; /* SoundCloud orange */
-  color: white;
-}
-
-.login-btn:hover {
-  background-color: #ef6c00;
+.action {
+  margin-top: 20px;
+  text-align: center;
 }
 
 .error-msg {
   color: red;
   font-size: 14px;
-  margin-top: 8px;
+  margin-top: 10px;
   text-align: center;
 }

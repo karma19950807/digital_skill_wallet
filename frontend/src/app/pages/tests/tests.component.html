@@ -1,0 +1,48 @@
+<div class="tests-container" *ngIf="!loading; else loadingTpl">
+  <h2>Your Test Records</h2>
+
+  <label>Filter by Grade:</label>
+  <select [(ngModel)]="selectedGrade" (change)="filterByGrade()">
+    <option value="all">All</option>
+    <option *ngFor="let g of [9, 10, 11, 12]">{{ g }}</option>
+  </select>
+
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th>Test</th>
+        <th>Course</th>
+        <th>Date</th>
+        <th>Grade</th>
+        <th>Score Summary</th>
+        <th>Artefact</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let test of filteredTests">
+        <td>{{ test.test_id }}</td>
+        <td>{{ test.course_name }}</td>
+        <td>{{ test.timestamp | date:'yyyy-MM-dd' }}</td>
+        <td>{{ test.grade_level }}</td>
+        <td>
+          {{ test.logical_thinking }} /
+          {{ test.critical_analysis }} /
+          {{ test.problem_solving }} /
+          {{ test.digital_tools }}
+        </td>
+        <td>
+          <ng-container *ngIf="test.artefact_json as raw">
+            <ng-container *ngIf="raw | parseArtefact as artefact">
+              <strong>{{ artefact.project }}</strong><br />
+              <a [href]="artefact.link" target="_blank">Open Artefact</a>
+            </ng-container>
+          </ng-container>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #loadingTpl>
+  <p>Loading test data...</p>
+</ng-template>

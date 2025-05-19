@@ -1,0 +1,23 @@
+<mat-card>
+  <h2>Account Settings</h2>
+
+  <div *ngIf="loading">Loading...</div>
+  <div *ngIf="errorMsg" class="error">{{ errorMsg }}</div>
+
+  <form *ngIf="!loading && profile">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Name</mat-label>
+      <input matInput [value]="profile.name" readonly />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput [value]="profile.email" readonly />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>School</mat-label>
+      <input matInput [value]="profile.school_name" readonly />
+    </mat-form-field>
+  </form>
+</mat-card>

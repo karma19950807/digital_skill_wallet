@@ -1,0 +1,102 @@
+<div class="overview-container">
+  <h2>Skill Overview</h2>
+
+  <div *ngIf="errorMsg" class="error">{{ errorMsg }}</div>
+
+  <div *ngIf="skills">
+    <div class="skill-breakdown-text">
+      <p><strong>Logical Thinking:</strong> {{ skills.logical }}</p>
+      <p><strong>Critical Analysis:</strong> {{ skills.analysis }}</p>
+      <p><strong>Problem Solving:</strong> {{ skills.problem }}</p>
+      <p><strong>Digital Tools:</strong> {{ skills.digital_tools }}</p>
+    </div>
+
+    <div class="chart-wrapper">
+      <div class="chart-box">
+        <h3>Bar Chart</h3>
+        <canvas baseChart [data]="barChartData" [type]="'bar'" [options]="barChartOptions"></canvas>
+      </div>
+
+      <div class="chart-box">
+        <h3>Pie Chart</h3>
+        <canvas baseChart [data]="pieChartData" [type]="'pie'" [options]="pieChartOptions"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<!-- <div class="overview-container">
+  <h2>Your Skill Wallet Summary</h2>
+
+  <div *ngIf="errorMsg" class="error">{{ errorMsg }}</div>
+
+  <div *ngIf="!errorMsg && skills.length === 0">
+    No skill records found.
+  </div>
+
+  <ul *ngIf="skills.length > 0">
+    <li *ngFor="let entry of skills">
+      Test: {{ entry.test_id }},
+      Grade: {{ entry.grade_level }},
+      Status: {{ entry.status }},
+      Stored: {{ entry.created_at | date:'short' }}
+    </li>
+  </ul>
+</div> -->
+
+
+
+
+
+<!-- <div class="overview-container">
+  <h1 class="greeting">Welcome, {{ student?.name }}!</h1>
+  <p class="total-score">Your average skill score: <strong>{{ totalScore }}%</strong></p>
+
+  <div class="stats-container">
+    <- Skill Breakdown -->
+    <!-- <div class="card wide">
+      <h3>Skill Breakdown</h3>
+
+      <div class="bar-group" *ngIf="skills">
+        <label>Logical Thinking</label>
+        <div class="bar">
+          <div class="fill fill-logical" [style.width.%]="skills.logicalThinking"></div>
+        </div>
+        <span>{{ skills.logicalThinking }}%</span>
+      </div>
+
+      <div class="bar-group">
+        <label>Critical Analysis</label>
+        <div class="bar">
+          <div class="fill fill-critical" [style.width.%]="skills.criticalAnalysis"></div>
+        </div>
+        <span>{{ skills.criticalAnalysis }}%</span>
+      </div>
+
+      <div class="bar-group">
+        <label>Problem Solving</label>
+        <div class="bar">
+          <div class="fill fill-problem" [style.width.%]="skills.problemSolving"></div>
+        </div>
+        <span>{{ skills.problemSolving }}%</span>
+      </div>
+    </div> -->
+
+    <!-- Line Chart -->
+    <!-- <div class="card chart-card">
+      <h3>Skill Progress Over Time</h3>
+      <canvas baseChart [data]="lineChartData" [options]="chartOptions" [type]="'line'"></canvas>
+    </div> -->
+
+    <!-- Pie Chart -->
+    <!-- <div class="card chart-card">
+      <h3>Performance Distribution</h3>
+      <canvas baseChart [data]="pieChartData" [options]="chartOptions" [type]="'pie'"></canvas>
+    </div>
+  </div>
+</div> -->

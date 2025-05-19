@@ -1,1 +1,43 @@
-<p>student-dashboard works!</p>
+<div class="dashboard-container">
+  <aside class="sidebar" [class.collapsed]="isCollapsed">
+    <div class="sidebar-header">
+      <div class="logo">
+        <img src="assets/logo.png" alt="Logo" width="40" height="40" />
+        <span>Digital Skill Wallet</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-menu">
+      <a [routerLink]="['./overview']" routerLinkActive="active">
+        <mat-icon>dashboard</mat-icon>
+        <span>Overview</span>
+      </a>
+      <a [routerLink]="['./tests']" routerLinkActive="active">
+        <mat-icon>assignment</mat-icon>
+        <span>Tests</span>
+      </a>
+      <a [routerLink]="['./skill-wallet']" routerLinkActive="active">
+        <mat-icon>work</mat-icon>
+        <span>Skill Wallet</span>
+      </a>
+      <a [routerLink]="['./settings']" routerLinkActive="active">
+        <mat-icon>settings</mat-icon>
+        <span>Settings</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="logout-btn" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <button mat-icon-button (click)="toggleSidebar()" class="toggle-btn">
+      <mat-icon>{{ isCollapsed ? 'chevron_right' : 'chevron_left' }}</mat-icon>
+    </button>
+    <router-outlet></router-outlet>
+  </main>
+</div>

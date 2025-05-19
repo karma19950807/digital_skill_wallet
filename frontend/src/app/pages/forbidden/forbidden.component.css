@@ -1,0 +1,34 @@
+.forbidden-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #ffe0b2, #ffcc80);
+}
+
+.forbidden-card {
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  padding: 20px;
+  border-radius: 16px;
+  background-color: #ffffff;
+}
+
+mat-card-title {
+  font-size: 22px;
+  color: #d84315; /* deep orange for error */
+  font-weight: 600;
+}
+
+mat-card-content p {
+  margin: 10px 0;
+  font-size: 15px;
+  color: #333;
+}
+
+mat-card-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
