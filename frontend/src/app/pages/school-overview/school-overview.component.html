@@ -1,0 +1,60 @@
+<mat-card *ngIf="!loading && stats">
+  <h2>School Overview</h2>
+
+  <div class="summary-grid">
+    <div class="card-box">Total Students: {{ stats.totalStudents }}</div>
+    <div class="card-box">Tests Submitted: {{ stats.totalTests }}</div>
+    <div class="card-box">Skills Recorded: {{ stats.totalSkills }}</div>
+    <div class="card-box">Pending Artefacts: {{ stats.pendingArtefacts }}</div>
+  </div>
+
+  <div class="charts-section">
+    <div class="chart-box">
+      <h3>Submissions by Grade</h3>
+      <canvas baseChart [data]="gradeChart" [type]="'bar'"></canvas>
+    </div>
+
+    <div class="chart-box">
+      <h3>Skill Record Status</h3>
+      <canvas baseChart [data]="statusChart" [type]="'pie'"></canvas>
+    </div>
+  </div>
+
+  <div class="controls">
+    <mat-form-field appearance="outline" class="date-filter">
+      <mat-label>Show records from</mat-label>
+      <mat-select [(value)]="selectedRange" (selectionChange)="filterByDate()">
+        <mat-option value="all">All</mat-option>
+        <mat-option value="7">Last 7 Days</mat-option>
+        <mat-option value="30">Last 30 Days</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-raised-button color="accent" (click)="downloadCSV()">Export to CSV</button>
+  </div>
+
+  <div class="recent-table" *ngIf="filteredSubmissions.length > 0">
+    <h3>Recent Test Submissions</h3>
+
+    <table>
+      <thead>
+        <tr>
+          <th (click)="sortTable('name')">Student</th>
+          <th (click)="sortTable('test_id')">Test ID</th>
+          <th (click)="sortTable('status')">Status</th>
+          <th (click)="sortTable('timestamp')">Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let s of filteredSubmissions">
+          <td>{{ s.name }}</td>
+          <td>{{ s.test_id }}</td>
+          <td>{{ s.status }}</td>
+          <td>{{ s.timestamp | date:'short' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</mat-card>
+
+<div *ngIf="errorMsg" class="error">{{ errorMsg }}</div>

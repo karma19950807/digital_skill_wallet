@@ -4,20 +4,22 @@
   <div *ngIf="loading">Loading...</div>
   <div *ngIf="errorMsg" class="error">{{ errorMsg }}</div>
 
-  <form *ngIf="!loading && profile">
+  <form *ngIf="!loading && profile" (ngSubmit)="saveChanges()">
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Name</mat-label>
-      <input matInput [value]="profile.name" readonly />
+      <input matInput [(ngModel)]="profile.name" name="name" required />
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Email</mat-label>
-      <input matInput [value]="profile.email" readonly />
+      <input matInput [(ngModel)]="profile.email" name="email" type="email" required />
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>School</mat-label>
-      <input matInput [value]="profile.school_name" readonly />
+      <input matInput [value]="profile.school_name" disabled />
     </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit">Save Changes</button>
   </form>
 </mat-card>

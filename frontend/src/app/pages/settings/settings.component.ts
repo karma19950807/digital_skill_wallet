@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-settings',
@@ -12,9 +14,11 @@ import { MatInputModule } from '@angular/material/input';
   styleUrls: ['./settings.component.css'],
   imports: [
     CommonModule,
+    FormsModule,
     MatCardModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatButtonModule
   ]
 })
 export class SettingsComponent implements OnInit {
@@ -43,6 +47,19 @@ export class SettingsComponent implements OnInit {
           console.error('Error loading profile:', err);
           this.errorMsg = 'Failed to load profile.';
           this.loading = false;
+        }
+      });
+  }
+
+  saveChanges(): void {
+    if (!this.studentId) return;
+
+    this.http.put(`http://localhost:3000/api/students/${this.studentId}/profile`, this.profile)
+      .subscribe({
+        next: () => alert('Changes saved successfully!'),
+        error: (err) => {
+          console.error('Save error:', err);
+          alert('Failed to save changes.');
         }
       });
   }

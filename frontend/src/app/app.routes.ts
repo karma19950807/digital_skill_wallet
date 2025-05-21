@@ -44,26 +44,36 @@ export const routes: Routes = [
   {
     path: 'school-dashboard',
     loadComponent: () => import('./pages/school-dashboard/school-dashboard.component')
-      .then(m => m.SchoolDashboardComponent)
-  },
+      .then(m => m.SchoolDashboardComponent), canActivate: [AuthGuard],
+    children: [
 
-   {
-    path: 'school-tests',
-    loadComponent: () =>
-      import('./pages/school-tests/school-tests.component').then(m => m.SchoolTestsComponent),
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'school-skill-wallet',
-    loadComponent: () =>
-      import('./pages/school-skill-wallet/school-skill-wallet.component').then(m => m.SchoolSkillWalletComponent),
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'school-settings',
-    loadComponent: () =>
-      import('./pages/school-settings/school-settings.component').then(m => m.SchoolSettingsComponent),
-    canActivate: [AuthGuard]
+      { path: '', redirectTo: 'school-overview', pathMatch: 'full' },
+      {
+        path: 'school-overview',
+        loadComponent: () => import('./pages/school-overview/school-overview.component')
+          .then(m => m.SchoolOverviewComponent),
+        canActivate: [AuthGuard]
+      },
+
+      {
+        path: 'school-tests',
+        loadComponent: () =>
+          import('./pages/school-tests/school-tests.component').then(m => m.SchoolTestsComponent),
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'school-skill-wallet',
+        loadComponent: () =>
+          import('./pages/school-skill-wallet/school-skill-wallet.component').then(m => m.SchoolSkillWalletComponent),
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'school-settings',
+        loadComponent: () =>
+          import('./pages/school-settings/school-settings.component').then(m => m.SchoolSettingsComponent),
+        canActivate: [AuthGuard]
+      }
+    ]
   },
 
   { path: 'forbidden', component: ForbiddenComponent }

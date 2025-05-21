@@ -1,55 +1,43 @@
-<div class="dashboard-wrapper">
-  <aside class="sidebar">
-    <div class="profile">
-      <img src="https://i.pravatar.cc/100?u={{school?.school_name}}" class="avatar" alt="School Avatar">
-      <h2>{{ school?.school_name }}</h2>
-      <p>{{ school?.email }}</p>
-      <nav>
-        <button mat-button (click)="navigate('/school-dashboard')">Dashboard</button>
-        <button mat-button (click)="navigate('/endorsements')">Endorsements</button>
-        <button mat-button (click)="navigate('/tests')">Tests</button>
-        <button mat-button (click)="navigate('/skill-wallet')">Skill Wallet</button>
-        <button mat-button (click)="navigate('/settings')">Settings</button>
-        <button mat-button color="warn" (click)="logout()">Logout</button>
-      </nav>
+<div class="dashboard-container">
+  <aside class="sidebar" [class.collapsed]="isCollapsed">
+    <div class="sidebar-header">
+      <div class="logo">
+        <img src="assets/logo.png" alt="Logo" width="40" height="40" />
+        <span>Digital Skill Wallet</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-menu">
+      <a [routerLink]="['./school-overview']" routerLinkActive="active">
+        <mat-icon>dashboard</mat-icon>
+        <span>School Overview</span>
+      </a>
+      <a [routerLink]="['./school-tests']" routerLinkActive="active">
+        <mat-icon>assignment</mat-icon>
+        <span>Tests</span>
+      </a>
+      <a [routerLink]="['./school-skill-wallet']" routerLinkActive="active">
+        <mat-icon>work</mat-icon>
+        <span>Skill Wallet</span>
+      </a>
+      <a [routerLink]="['./school-settings']" routerLinkActive="active">
+        <mat-icon>settings</mat-icon>
+        <span>Settings</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="logout-btn" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>Logout</span>
+      </button>
     </div>
   </aside>
 
-  <main class="content">
-    <h1>Welcome back, {{ school?.school_name }}!</h1>
-    <p>Monitor skill submissions and endorsement progress below.</p>
-
-    <div class="grid">
-      <mat-card class="chart-box">
-        <mat-card-title>Endorsement Activity</mat-card-title>
-        <img src="https://quickchart.io/chart?c={type:'line',data:{labels:['Jan','Feb','Mar','Apr','May','Jun','Oct'],datasets:[{label:'Endorsed',data:[20,22,28,30,35,38,42],borderColor:'#f57c00'}]}}" />
-      </mat-card>
-
-      <mat-card class="info-box">
-        <mat-card-title>Today’s Review</mat-card-title>
-        <h2>+4 Submissions</h2>
-      </mat-card>
-
-      <mat-card class="chart-box">
-        <mat-card-title>Submission Breakdown</mat-card-title>
-        <img src="https://quickchart.io/chart?c={type:'pie',data:{labels:['Staged','Endorsed','Submitted','Committed'],datasets:[{data:[25,18,10,6],backgroundColor:['#ffe0b2','#ffb74d','#fb8c00','#ef6c00']}]} }" />
-      </mat-card>
-
-      <mat-card class="skills-box">
-        <mat-card-title>Pending Skills</mat-card-title>
-        <div class="skill-bar">
-          <span>Logical Thinking</span>
-          <mat-progress-bar value="60" color="accent"></mat-progress-bar>
-        </div>
-        <div class="skill-bar">
-          <span>Critical Analysis</span>
-          <mat-progress-bar value="40" color="accent"></mat-progress-bar>
-        </div>
-        <div class="skill-bar">
-          <span>Problem Solving</span>
-          <mat-progress-bar value="50" color="accent"></mat-progress-bar>
-        </div>
-      </mat-card>
-    </div>
+  <main class="main-content">
+    <button mat-icon-button (click)="toggleSidebar()" class="toggle-btn">
+      <mat-icon>{{ isCollapsed ? 'chevron_right' : 'chevron_left' }}</mat-icon>
+    </button>
+    <router-outlet></router-outlet>
   </main>
 </div>
