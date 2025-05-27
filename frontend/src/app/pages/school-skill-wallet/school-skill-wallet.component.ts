@@ -1,13 +1,119 @@
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
+
+interface SkillWallet {
+  student_id: string;
+  name: string;
+  test_id: string;
+  grade_level: number;
+  status: string;
+  artefact_hash: string;
+  skillcoin_json: any;
+}
 
 @Component({
   selector: 'app-school-skill-wallet',
   standalone: true,
-  imports: [CommonModule],
   templateUrl: './school-skill-wallet.component.html',
-  styleUrl: './school-skill-wallet.component.css'
+  styleUrls: ['./school-skill-wallet.component.css'],
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatTableModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatButtonModule
+  ]
 })
-export class SchoolSkillWalletComponent {
+export class SchoolSkillWalletComponent implements OnInit {
+  schoolId: string | null = null;
+  allSkills: SkillWallet[] = [];
+  filteredSkills: SkillWallet[] = [];
+  selectedStatus: string = 'all';
+  errorMsg = '';
+  loading = true;
 
+  constructor(private http: HttpClient) {}
+
+  ngOnInit(): void {
+    this.schoolId = localStorage.getItem('schoolId');
+    if (!this.schoolId) {
+      this.errorMsg = 'No school ID found.';
+      this.loading = false;
+      return;
+    }
+
+    this.http.get<SkillWallet[]>(`http://localhost:3000/api/schools/${this.schoolId}/skills`)
+      .subscribe({
+        next: (res) => {
+          this.allSkills = res;
+          this.filteredSkills = res;
+          this.loading = false;
+        },
+        error: (err) => {
+          console.error('Error fetching skill wallet data:', err);
+          this.errorMsg = 'Failed to load skill wallet records';
+          this.loading = false;
+        }
+      });
+  }
+
+  filterByStatus(): void {
+    if (this.selectedStatus === 'all') {
+      this.filteredSkills = this.allSkills;
+    } else {
+      this.filteredSkills = this.allSkills.filter(s => s.status === this.selectedStatus);
+    }
+  }
+
+  verifySkillCoins(student: SkillWallet): void {
+    const id = student.student_id || student.skillcoin_json?.student_id;
+    if (!id) {
+      console.warn('No student_id found for student:', student);
+      return;
+    }
+
+    this.http.get<any>(`http://localhost:3000/api/students/${id}/calculate-coins`)
+      .subscribe({
+        next: (res) => {
+          student.skillcoin_json = {
+            ...student.skillcoin_json,
+            total: res.total,
+            verified: res.verified,
+            proof: res.proof,
+            publicSignals: res.publicSignals
+          };
+        },
+        error: (err) => {
+          console.error('Error verifying skill coins:', err);
+        }
+      });
+  }
+
+  downloadProof(student: SkillWallet): void {
+    const id = student.student_id;
+    if (!id) return;
+
+    this.http.get<any>(`http://localhost:3000/api/students/${id}/proof`)
+      .subscribe({
+        next: (res) => {
+          const blob = new Blob([JSON.stringify(res, null, 2)], { type: 'application/json' });
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `student_${id}_proof.json`;
+          a.click();
+          window.URL.revokeObjectURL(url);
+        },
+        error: (err) => {
+          console.error('Error downloading proof:', err);
+        }
+      });
+  }
 }

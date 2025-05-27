@@ -107,29 +107,32 @@ router.get('/:id/tests', async (req, res) => {
 });
 
 
-
-
-router.get('/:id/tests', async (req, res) => {
+router.get('/:id/skills', async (req, res) => {
   const schoolId = req.params.id;
 
   try {
     const [rows] = await db.query(`
-      SELECT s.name, ts.test_id, ts.grade_level,
-             ts.logical_thinking, ts.critical_analysis,
-             ts.problem_solving, ts.digital_tools,
-             ts.is_ready, ts.timestamp
-      FROM test_score_staging ts
-      JOIN student s ON ts.student_id = s.student_id
+      SELECT s.name, sw.test_id, sw.grade_level, sw.status,
+             sw.artefact_hash, sw.skillcoin_json
+      FROM student s
+      LEFT JOIN skill_wallet_temp sw ON s.student_id = sw.student_id
       WHERE s.school_id = ?
-      ORDER BY ts.timestamp DESC
+      ORDER BY sw.created_at DESC
     `, [schoolId]);
 
-    res.json(rows);
+    const parsed = rows.map(r => ({
+      ...r,
+      skillcoin_json: r.skillcoin_json ? JSON.parse(r.skillcoin_json) : null
+    }));
+
+    res.json(parsed);
   } catch (err) {
-    console.error('Error fetching school test data:', err);
-    res.status(500).json({ error: 'Failed to fetch test data' });
+    console.error('Error fetching skill wallet data:', err);
+    res.status(500).json({ error: 'Failed to fetch skill wallet records' });
   }
 });
+
+
 
 
 
