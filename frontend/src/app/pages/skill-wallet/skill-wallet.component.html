@@ -36,12 +36,27 @@
 
     <ng-container matColumnDef="status">
       <th mat-header-cell *matHeaderCellDef>Status</th>
-      <td mat-cell *matCellDef="let row">{{ row.status }}</td>
+      <td mat-cell *matCellDef="let row">
+        {{ row.skillcoin_json?.verified ? 'Verified' : 'Not Verified' }}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="created_at">
       <th mat-header-cell *matHeaderCellDef>Created</th>
       <td mat-cell *matCellDef="let row">{{ row.created_at | date:'short' }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="summary">
+      <th mat-header-cell *matHeaderCellDef>Skill Summary</th>
+      <td mat-cell *matCellDef="let row">
+        <span *ngIf="row.skillcoin_json?.details">
+          Logical: {{ row.skillcoin_json.details.logical_thinking }},
+          Analysis: {{ row.skillcoin_json.details.critical_analysis }},
+          Problem: {{ row.skillcoin_json.details.problem_solving }},
+          Tools: {{ row.skillcoin_json.details.digital_tools }}
+        </span>
+        <span *ngIf="!row.skillcoin_json?.details">N/A</span>
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="view">

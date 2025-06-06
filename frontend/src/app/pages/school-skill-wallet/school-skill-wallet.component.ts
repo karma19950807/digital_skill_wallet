@@ -15,6 +15,7 @@ interface SkillWallet {
   status: string;
   artefact_hash: string;
   skillcoin_json: any;
+  calculatedCoins?: any;
 }
 
 @Component({
@@ -36,6 +37,7 @@ export class SchoolSkillWalletComponent implements OnInit {
   allSkills: SkillWallet[] = [];
   filteredSkills: SkillWallet[] = [];
   selectedStatus: string = 'all';
+  statuses = ['Verified', 'Not Verified'];
   errorMsg = '';
   loading = true;
 
@@ -49,6 +51,10 @@ export class SchoolSkillWalletComponent implements OnInit {
       return;
     }
 
+    this.fetchSkills();
+  }
+
+  fetchSkills(): void {
     this.http.get<SkillWallet[]>(`http://localhost:3000/api/schools/${this.schoolId}/skills`)
       .subscribe({
         next: (res) => {
@@ -73,47 +79,30 @@ export class SchoolSkillWalletComponent implements OnInit {
   }
 
   verifySkillCoins(student: SkillWallet): void {
-    const id = student.student_id || student.skillcoin_json?.student_id;
+    const id = student.student_id || student.skillcoin_json.student_id;
     if (!id) {
-      console.warn('No student_id found for student:', student);
-      return;
+        console.warn('No student_id found for student:', student);
+        return;
     }
 
     this.http.get<any>(`http://localhost:3000/api/students/${id}/calculate-coins`)
-      .subscribe({
-        next: (res) => {
-          student.skillcoin_json = {
-            ...student.skillcoin_json,
-            total: res.total,
-            verified: res.verified,
-            proof: res.proof,
-            publicSignals: res.publicSignals
-          };
-        },
-        error: (err) => {
-          console.error('Error verifying skill coins:', err);
-        }
-      });
+        .subscribe({
+            next: (res) => {
+                console.log('✅ Verification result:', res);
+                this.fetchSkills(); // ✅ Refresh list after backend update
+            },
+            error: (err) => {
+                console.error('Error verifying skill coins:', err);
+            }
+        });
+}
+
+  downloadProof(studentId: string): void {
+    if (!studentId) {
+        console.warn('No student ID provided for downloadProof');
+        return;
+    }
+    window.open(`http://localhost:3000/api/students/${studentId}/proof`, '_blank');
   }
 
-  downloadProof(student: SkillWallet): void {
-    const id = student.student_id;
-    if (!id) return;
-
-    this.http.get<any>(`http://localhost:3000/api/students/${id}/proof`)
-      .subscribe({
-        next: (res) => {
-          const blob = new Blob([JSON.stringify(res, null, 2)], { type: 'application/json' });
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = `student_${id}_proof.json`;
-          a.click();
-          window.URL.revokeObjectURL(url);
-        },
-        error: (err) => {
-          console.error('Error downloading proof:', err);
-        }
-      });
-  }
 }

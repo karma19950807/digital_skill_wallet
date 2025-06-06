@@ -30,8 +30,11 @@ export class SkillWalletComponent implements OnInit {
   errorMsg = '';
   loading = true;
 
-  displayedColumns: string[] = ['test_id', 'grade_level', 'artefact_hash', 'status', 'created_at', 'view'];
-  statuses: string[] = ['staged', 'endorsed', 'submitted', 'committed'];
+  displayedColumns: string[] = [
+    'test_id', 'grade_level', 'artefact_hash', 'status', 'created_at', 'summary', 'view'
+  ];
+
+  statuses: string[] = ['Verified', 'Not Verified'];
   selectedStatus: string = '';
 
   modalData: any = null;
@@ -49,8 +52,13 @@ export class SkillWalletComponent implements OnInit {
     this.http.get<any[]>(`http://localhost:3000/api/students/${this.studentId}/skill-wallet`)
       .subscribe({
         next: (data: any[]) => {
-          this.skillWallet = data;
-          this.filteredWallet = [...data];
+          this.skillWallet = data.map(row => ({
+            ...row,
+            skillcoin_json: typeof row.skillcoin_json === 'string'
+              ? JSON.parse(row.skillcoin_json)
+              : row.skillcoin_json
+          }));
+          this.filteredWallet = [...this.skillWallet];
           this.loading = false;
         },
         error: (err: any) => {
@@ -65,19 +73,16 @@ export class SkillWalletComponent implements OnInit {
     if (!this.selectedStatus) {
       this.filteredWallet = [...this.skillWallet];
     } else {
-      this.filteredWallet = this.skillWallet.filter(row => row.status === this.selectedStatus);
+      const match = this.selectedStatus === 'Verified';
+      this.filteredWallet = this.skillWallet.filter(row => row.skillcoin_json?.verified === match);
     }
   }
 
   openSkillDetail(row: any): void {
     if (!row.skillcoin_json) return;
-    try {
-      this.modalData = JSON.parse(row.skillcoin_json);
-      const dialog = document.getElementById('skillModal') as HTMLDialogElement;
-      if (dialog) dialog.showModal();
-    } catch (e) {
-      console.error('Invalid JSON in skillcoin:', e);
-    }
+    this.modalData = row.skillcoin_json;
+    const dialog = document.getElementById('skillModal') as HTMLDialogElement;
+    if (dialog) dialog.showModal();
   }
 
   closeModal(): void {
